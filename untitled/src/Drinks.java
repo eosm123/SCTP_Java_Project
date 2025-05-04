@@ -1,42 +1,23 @@
 import java.util.ArrayList;
 
-public class Drinks {
-    protected int id;
-    protected ArrayList<String> drinks;
+public class Drinks implements iOrderable {
     protected String customerName;
-    protected double totalPrice;
-    protected boolean isIced;
+    protected ArrayList<String> drinks;
+    protected ArrayList<Double> baseTotalPrice;
+    protected ArrayList<Boolean> isIced;
 
     public Drinks() {
-        this.id = 0;
-        this.drinks = new ArrayList<>();
         this.customerName = "NA";
-        this.totalPrice = 0.0;
-        this.isIced = false;
+        this.drinks = new ArrayList<>();
+        this.baseTotalPrice = new ArrayList<>();
+        this.isIced = new ArrayList<>();
     }
 
-    public Drinks(int id, ArrayList<String> drinks, String customerName, double totalPrice, boolean isIced) {
-        this.id = id;
-        this.drinks = drinks;
+    public Drinks(String customerName, ArrayList<String> drinks, ArrayList<Double> baseTotalPrice, ArrayList<Boolean> isIced) {
         this.customerName = customerName;
-        this.totalPrice = totalPrice;
-        this.isIced = isIced;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public ArrayList<String> getdrinks() {
-        return drinks;
-    }
-
-    public void setDrink(ArrayList<String> drinks) {
         this.drinks = drinks;
+        this.baseTotalPrice = baseTotalPrice;
+        this.isIced = isIced;
     }
 
     public String getCustomerName() {
@@ -47,23 +28,48 @@ public class Drinks {
         this.customerName = customerName;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public ArrayList<String> getdrinks() {
+        return drinks;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        if (totalPrice > 0) {
-            this.totalPrice = totalPrice;
-        } else {
-            throw new IllegalArgumentException("Invalid price");
-        }
+    public void setDrink(ArrayList<String> drinks) {
+        this.drinks = drinks;
     }
 
-    public boolean getIsIced() {
+    public ArrayList<Double> getTotalPrice() {
+        return baseTotalPrice;
+    }
+
+    public void setTotalPrice(ArrayList<Double> baseTotalPrice) {
+        this.baseTotalPrice = baseTotalPrice;
+    }
+
+    public ArrayList<Boolean> getIsIced() {
         return isIced;
     }
 
-    public void setIsIced(boolean isIced) {
+    public void setIsIced(ArrayList<Boolean> isIced) {
         this.isIced = isIced;
     }
+
+    public double calculateBaseTotalPrice() {
+        double sumPrice = 0.0;
+        for (double p : baseTotalPrice) {
+            sumPrice = sumPrice + p;
+        }
+        return sumPrice;
+    }
+
+    public String toString() {
+        return "Customer Name: " + customerName
+                + ", List of Drinks: " + drinks
+                + ", Total Price: " + String.format("%.2f", calculateBaseTotalPrice())
+                + ", Is it Iced? " + isIced;
+    }
+
+    public double calculateNetTotalPrice() {
+        return calculateBaseTotalPrice();
+    }
 }
+
+
